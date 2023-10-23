@@ -4,7 +4,7 @@
 #include <unistd.h>
 #include <sys/types.h>
 
-#define NUM_THREADS 100
+#define NUM_THREADS 10
 
 void * increment(void * num)
 {
@@ -18,7 +18,7 @@ void * increment(void * num)
 void * decrement(void * num)
 {
 	//decrement the counter
-	(int)(long)num--;
+	(long)num--;
 	//print the counter
 	printf("Current Number: %d\n", (int)(long)num);
 	pthread_exit(0);
@@ -29,7 +29,7 @@ int main()
 	//create 10 threads
 	pthread_t threads[NUM_THREADS];
 	
-	long counter = 0;
+	int counter = 0;
 	
 	//increment over each thread
 	for(int i = 0; i < NUM_THREADS; i++)
@@ -38,12 +38,12 @@ int main()
 		if(i % 2 == 0)
 		{
 			//if even, increment
-			pthread_create(&threads[i], NULL, increment, (void *) counter);
+			pthread_create(&threads[i], NULL, increment, (void *) &counter);
 		}
 		else
 		{
 			//if odd, decrement
-			pthread_create(&threads[i], NULL, decrement, (void *) counter);
+			pthread_create(&threads[i], NULL, decrement, (void *) &counter);
 		}
 	}
 	
